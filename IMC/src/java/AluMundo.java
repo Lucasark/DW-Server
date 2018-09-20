@@ -31,15 +31,40 @@ public class AluMundo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AluMundo</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AluMundo at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            out.println("<!DOCTYPE html>\n" +
+                        "<html lang=\"pt-br\">\n" +
+                        "<head>\n" +
+                        "	<meta charset=\"utf-8\">\n" +
+                        "	<title>Cálculo do IMC</title>\n" +
+                        "	<script type=\"text/javascript\" src=\"main.js\"></script>\n" +
+                        "</head>\n" +
+                        "<body>\n" +
+                        "	<div class=\"dadosBox\">\n" +
+                        "		<form>\n" +
+                        "			<div>\n" +
+                        "				<label for=\"altura\">Altura</label><br>\n" +
+                        "				<input type=\"text\" name=\"altura\" id =\"altura\">\n" +
+                        "			</div>\n" +
+                        "			<br>\n" +
+                        "			<div>\n" +
+                        "				<label for=\"peso\">Peso</label><br>\n" +
+                        "				<input type=\"text\" name=\"peso\" id =\"peso\">\n" +
+                        "			</div>\n" +
+                        "			<br>\n" +
+                        "			<button onClick=\"submeterDados()\">Calcular</button>\n" +
+                        "		</form>\n" +
+                        "	</div>\n" +
+                        "</body>\n" +
+                        "</html>");
+            out.println("<script type=\"text/javascript\">\n" +
+                        "function submeterDados() {\n" +
+                        "	var peso = document.getElementById(\"peso\");\n" +
+                        "	var altura = document.getElementById(\"altura\");\n" +
+                        "	var imc = peso.value / (altura.value * altura.value);\n" +
+                        "	alert(\"IMC >>>>>>>>\" + imc);\n" +
+                        "}\n" +
+                        "</script>");
+            String altura = request.getParameter(altura);
         }
     }
 
