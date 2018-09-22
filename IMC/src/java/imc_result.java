@@ -30,7 +30,17 @@ public class imc_result extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        //receber os valores de AluMundo
+        //fazer o calculo do IMC
+        //printar o HTML com o calculo feito
+        
         response.setContentType("text/html;charset=UTF-8");
+        AluMundo aluMundo = new AluMundo();
+        aluMundo.getResultado();
+        Double alt = Double.parseDouble(altura);
+        Double pes = Double.parseDouble(peso);
+        Double IMC = pes / (alt * alt);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -40,6 +50,7 @@ public class imc_result extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet imc_result at " + request.getContextPath() + "</h1>");
+            out.print("o resultado é" + aluMundo.getResultado());
             out.println("</body>");
             out.println("</html>");
         }
