@@ -6,6 +6,8 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.console;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +17,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Lucasark
  */
-public class AluMundo extends HttpServlet {
 
+    public class AluMundo extends HttpServlet {
+        public double resultado;
+        public double getResultado(){
+        return resultado;
+        }
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -29,6 +37,8 @@ public class AluMundo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String altura = request.getParameter("altura");
+        String peso = request.getParameter("peso");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>\n" +
@@ -36,11 +46,10 @@ public class AluMundo extends HttpServlet {
                         "<head>\n" +
                         "	<meta charset=\"utf-8\">\n" +
                         "	<title>Cálculo do IMC</title>\n" +
-                        "	<script type=\"text/javascript\" src=\"main.js\"></script>\n" +
                         "</head>\n" +
                         "<body>\n" +
                         "	<div class=\"dadosBox\">\n" +
-                        "		<form>\n" +
+                        "		<form name=\"Form\" action=\"AluMundo\" method=\"POST\">\n" +
                         "			<div>\n" +
                         "				<label for=\"altura\">Altura</label><br>\n" +
                         "				<input type=\"text\" name=\"altura\" id =\"altura\">\n" +
@@ -51,21 +60,12 @@ public class AluMundo extends HttpServlet {
                         "				<input type=\"text\" name=\"peso\" id =\"peso\">\n" +
                         "			</div>\n" +
                         "			<br>\n" +
-                        "			<button onClick=\"submeterDados()\">Calcular</button>\n" +
+                        "			<input type=\"submit\" name=\"Enviar\" value=\"Enviar\" />\n" +
                         "		</form>\n" +
                         "	</div>\n" +
                         "</body>\n" +
                         "</html>");
-            out.println("<script type=\"text/javascript\">\n" +
-                        "function submeterDados() {\n" +
-                        "	var peso = document.getElementById(\"peso\");\n" +
-                        "	var altura = document.getElementById(\"altura\");\n" +
-                        "	var imc = peso.value / (altura.value * altura.value);\n" +
-                        "	alert(\"IMC >>>>>>>>\" + imc);\n" +
-                        "}\n" +
-                        "</script>");
-            String altura = request.getParameter(altura);
-        }
+        }    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -94,7 +94,51 @@ public class AluMundo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        
+        
+        
+        //receber os valores de SUBMIT (form)
+        
+        //fazer a veriricação de valor
+        
+            //caso certo -> 
+            //response.sendRedirect("/IMC/imc_result?altura=" + altura + "&peso=" + peso  );
+                //adendo: Quando o sendRe acontece ele "ignora" o que está embaixo;
+            
+            //caso errado ->
+            //"reprintar" o HTML indicando onde está errado
+            
+            
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>\n" +
+                        "<html lang=\"pt-br\">\n" +
+                        "<head>\n" +
+                        "	<meta charset=\"utf-8\">\n" +
+                        "	<title>Cálculo do IMC</title>\n" +
+                        "</head>\n" +
+                        "<body>\n" +
+                        "	<div class=\"dadosBox\">\n" +
+                        "		<form name=\"Form\" action=\"imc_result\">\n" +
+                        "			<div>\n" +
+                        "				<label for=\"altura\">Altura</label><br>\n" +
+                        "				<input type=\"text\" name=\"altura\" id =\"altura\" value="+altura+">\n" +
+                        "			</div>\n" +
+                        "			<br>\n" +
+                        "			<div>\n" +
+                        "				<label for=\"peso\">Peso</label><br>\n" +
+                        "				<input type=\"text\" name=\"peso\" id =\"peso\" value="+peso+">\n" +
+                        "			</div>\n" +
+                        "			<br>\n" +
+                        "			<input type=\"submit\" name=\"Enviar\" value=\"Enviar\" />\n" +
+                        "		</form>\n" +
+                        "	</div>\n" +
+                        "</body>\n" +
+                        "</html>");
+        }    
+        
+        
     }
 
     /**
