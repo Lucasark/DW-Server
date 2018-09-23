@@ -36,8 +36,9 @@ public class imc_result extends HttpServlet {
         //printar o HTML com o calculo feito
         
         response.setContentType("text/html;charset=UTF-8");
-        AluMundo aluMundo = new AluMundo();
-        aluMundo.getResultado();
+        //AluMundo aluMundo = new AluMundo();
+        String peso = request.getParameter("peso");
+        String altura = request.getParameter("altura");
         Double alt = Double.parseDouble(altura);
         Double pes = Double.parseDouble(peso);
         Double IMC = pes / (alt * alt);
@@ -49,8 +50,8 @@ public class imc_result extends HttpServlet {
             out.println("<title>Servlet imc_result</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet imc_result at " + request.getContextPath() + "</h1>");
-            out.print("o resultado é" + aluMundo.getResultado());
+            out.println("<h1>IMC</h1>");
+            out.print("o resultado é: " + IMC);
             out.println("</body>");
             out.println("</html>");
         }

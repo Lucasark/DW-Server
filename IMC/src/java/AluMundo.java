@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String altura = request.getParameter("altura");
-        String peso = request.getParameter("peso");
+        String peso = request.getParameter("peso"); 
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>\n" +
@@ -93,52 +93,66 @@ import javax.servlet.http.HttpServletResponse;
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException {    
+        String peso = request.getParameter("peso");
+        String altura = request.getParameter("altura");
+        Boolean alt_c = false;
+        Boolean pes_c = false;
         response.setContentType("text/html;charset=UTF-8");
         
+        if (!peso.equals("")){
+            Double pes = Double.parseDouble(peso);
+            if (pes > 0)
+                pes_c = true;
+        }
+          
+        if (!altura.equals("")){
+            Double alt = Double.parseDouble(altura);
+            if (alt > 0)
+                alt_c = true;
+        }
         
-        
-        //receber os valores de SUBMIT (form)
-        
-        //fazer a veriricação de valor
-        
-            //caso certo -> 
-            //response.sendRedirect("/IMC/imc_result?altura=" + altura + "&peso=" + peso  );
-                //adendo: Quando o sendRe acontece ele "ignora" o que está embaixo;
-            
-            //caso errado ->
-            //"reprintar" o HTML indicando onde está errado
-            
-            
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+        if (alt_c == true && pes_c == true){
+            response.sendRedirect("/IMC/imc_result?altura=" + altura + "&peso=" + peso  );
+        }
+        //else nao precisa (fins didaticos) response.Send finaliza o doPost
+        else{
+            PrintWriter out = response.getWriter();
+                    /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>\n" +
                         "<html lang=\"pt-br\">\n" +
                         "<head>\n" +
                         "	<meta charset=\"utf-8\">\n" +
-                        "	<title>Cálculo do IMC</title>\n" +
+                        "	<title>Cálculo do IMC - POST</title>\n" +
                         "</head>\n" +
                         "<body>\n" +
                         "	<div class=\"dadosBox\">\n" +
-                        "		<form name=\"Form\" action=\"imc_result\">\n" +
+                        "		<form name=\"Form\" action=\"AluMundo\" method=\"POST\">\n" +
                         "			<div>\n" +
                         "				<label for=\"altura\">Altura</label><br>\n" +
-                        "				<input type=\"text\" name=\"altura\" id =\"altura\" value="+altura+">\n" +
-                        "			</div>\n" +
-                        "			<br>\n" +
-                        "			<div>\n" +
+                        "				<input type=\"text\" name=\"altura\" id =\"altura\" value="+altura+">\n"+
+                        "                   </div>\n");               
+            if (alt_c == false){
+                out.println("                   <br>\n" +
+                            "                   <font color=\"red\">Altura Invalida!</font>\n" +
+                            "			<br>\n");
+            }
+            out.println("			<div>\n" +
                         "				<label for=\"peso\">Peso</label><br>\n" +
                         "				<input type=\"text\" name=\"peso\" id =\"peso\" value="+peso+">\n" +
-                        "			</div>\n" +
-                        "			<br>\n" +
+                        "			</div>\n");
+            if (pes_c == false){ 
+                out.println("                   <br>\n" +
+                            "                   <font color=\"red\">Peso Invalida!</font>\n" +
+                            "			<br>\n");
+            }
+            out.println("			<br>\n" +
                         "			<input type=\"submit\" name=\"Enviar\" value=\"Enviar\" />\n" +
                         "		</form>\n" +
                         "	</div>\n" +
                         "</body>\n" +
                         "</html>");
-        }    
-        
-        
+        }
     }
 
     /**
